@@ -81,4 +81,11 @@ with tab2:
         mm.mask(mm > mmRange[1], '', inplace=True)
         st.session_state.df2[i] = mm
 
+    l = pd.DataFrame([[1.111, 2.222], [3.333, 4.444], [5.555, 1.111], [2.222, 3.333]])
+    l2 = pd.Series([3.333, 4.444, 1.111, 3.333, 6.666])
+    l2.mask(l2<3, '', inplace=True)
+    l['test'] = l2
+    l.round(1)
+    # l[0].mask(mm < mmRange[0], '', inplace=True)
+
     st.dataframe(st.session_state.df2.round(2))
