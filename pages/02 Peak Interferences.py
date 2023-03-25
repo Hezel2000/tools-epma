@@ -8,7 +8,7 @@ st.header('Checking for Peak Interferences')
 st.session_state.df = pd.read_csv('data/transition_energies.csv')
 elements = sorted(set(st.session_state.df['El'].values))
 
-tab1, tab2 = st.tabs(['visual', 'numeric'])
+tab1, tab2, tab3 = st.tabs(['visual', 'numeric', 'recipe'])
 
 with tab1:
     def sel_el(selEl): 
@@ -88,3 +88,25 @@ with tab2:
         st.session_state.df2[i] = mm.apply(lambda col:pd.to_numeric(col, errors='coerce'))
 
     st.dataframe(st.session_state.df2.round(3))
+
+with tab3:
+    col1, col2, col3, col4, col5 = st.columns(5)
+
+    with col1:
+        el1_rec = st.multiselect('Element 1', elements)
+    with col2:
+        el2_rec = st.multiselect('Element 2', elements)
+    with col3:
+        el3_rec = st.multiselect('Element 3', elements)
+        
+
+    col1, col2, col3, col4, col5 = st.columns(5)
+
+    with col1:
+        st.write(el1_rec)
+    
+    with col2:
+        st.write(el2_rec)
+    
+    with col3:
+        st.write(el3_rec)
