@@ -5,18 +5,18 @@ from bokeh.models import ColumnDataSource, Text
 
 st.header('Checking for Peak Interferences')
 
+st.session_state.df = pd.read_csv('data/transition_energies.csv')
+elements = sorted(set(st.session_state.df['El'].values))
+
 tab1, tab2 = st.tabs(['visual', 'numeric'])
 
 with tab1:
     def sel_el(selEl): 
-        el = df[(df['El'] == selEl)]
+        el = st.session_state.df[(st.session_state.df['El'] == selEl)]
         x = el['Energy (keV)'].values
         y = el['I'].values
         label = el['Line'].values
         return x, y, label
-
-    df = pd.read_csv('data/transition_energies.csv')
-    elements = sorted(set(df['El'].values))
 
     col1, col2 = st.columns([1, 5])
 
@@ -42,6 +42,43 @@ with tab1:
         st.bokeh_chart(p)
 
 with tab2:
-    st.write('coming')
+    const_h = 6.62607004 * 10**(-34)
+    const_c = 299792458
+    const_eVtoJoule = 1.602176634 * 10**(-19)
+    #d-distance of the analystor-crystals in nm
+    st.session_state.crystalID = {
+    'TAP': 25.757,
+    'PET': 8.742,
+    'LIF': 4.0267,
+    'LDE1': 60,
+    'LDE2': 98,
+    'LDE4': 40,
+    'STE': 100.4
+    }
+    mmRange = [60, 260]
 
+    col1, col2 = st.columns([1,4])
+    with col1:
+        st.session_state.el = st.selectbox('Element', elements, index = 44)
+    with col2:
+        st.session_state.analysor_crystal = st.multiselect('Analyser Crystal', st.session_state.crystalID)
+    
+    el = st.session_state.df[(st.session_state.df['El'] == st.session_state.el)]
+    energies = el['Energy (keV)']
+    line_labels = el['Line']
+    
+    # convert energies into wavelengths in SI units (-> m) & in nm  # convert wavelengths from m to nm
+    waveLengths = ((const_h * const_c / (1000 * const_eVtoJoule * energies)) * 10**9).rename('lambda (nm)')
 
+    st.session_state.df2 = pd.concat([line_labels, energies, waveLengths], axis=1)
+
+    specConst1_4 = 2800   # Spec 1-4
+    specConst5 = 2000   # Spec 5
+
+    for i in st.session_state.analysor_crystal:
+        mm = waveLengths * specConst1_4/st.session_state.crystalID[i]
+        mm.mask(mm < mmRange[0], '', inplace=True)
+        mm.mask(mm > mmRange[1], '', inplace=True)
+        st.session_state.df2[i] = mm
+
+    st.dataframe(st.session_state.df2.round(2))
