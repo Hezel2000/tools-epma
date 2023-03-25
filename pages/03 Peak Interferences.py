@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 from bokeh.plotting import figure
 from bokeh.models import ColumnDataSource, Text
-from bokeh.util.compiler import TypeScript
 
 st.header('Checking for Peak Interferences')
 
