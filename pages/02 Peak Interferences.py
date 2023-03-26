@@ -8,7 +8,7 @@ st.header('Checking for Peak Interferences')
 st.session_state.df = pd.read_csv('data/transition_energies.csv')
 elements = sorted(set(st.session_state.df['El'].values))
 
-tab1, tab2, tab3 = st.tabs(['visual', 'numeric', 'recipe'])
+tab1, tab2, tab3, tab4 = st.tabs(['visual', 'numeric', 'interferences', 'recipe'])
 
 with tab1:
     def sel_el(selEl): 
@@ -90,23 +90,38 @@ with tab2:
     st.dataframe(st.session_state.df2.round(3))
 
 with tab3:
+    st.session_state.el_interference = st.selectbox('Element to check interferences', elements, index = 44)
+
+with tab4:
     col1, col2, col3, col4, col5 = st.columns(5)
 
     with col1:
-        el1_rec = st.multiselect('Element 1', elements)
+        s1_rec = st.multiselect('S1', elements)
     with col2:
-        el2_rec = st.multiselect('Element 2', elements)
+        s2_rec = st.multiselect('S2', elements)
     with col3:
-        el3_rec = st.multiselect('Element 3', elements)
+        s3_rec = st.multiselect('S3', elements)
+    with col4:
+        s4_rec = st.multiselect('S4', elements)
+    with col5:
+        s5_rec = st.multiselect('S5', elements)
         
 
     col1, col2, col3, col4, col5 = st.columns(5)
 
     with col1:
-        st.write(el1_rec)
+        st.write(s1_rec)
+        with st.expander("See explanation"):
+            st.write(s1_rec)
     
     with col2:
-        st.write(el2_rec)
+        st.write(s2_rec)
     
     with col3:
-        st.write(el3_rec)
+        st.write(s3_rec)
+
+    with col4:
+        st.write(s4_rec)
+    
+    with col5:
+        st.write(s5_rec)
