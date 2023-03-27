@@ -7,6 +7,17 @@ st.header('Checking for Peak Interferences')
 
 st.session_state.df = pd.read_csv('data/transition_energies.csv')
 elements = sorted(set(st.session_state.df['El'].values))
+    #d-distance of the analystor-crystals in nm
+st.session_state.crystalID = {
+    'TAP': 25.757,
+    'PET': 8.742,
+    'LIF': 4.0267,
+    'LDE1': 60,
+    'LDE2': 98,
+    'LDE4': 40,
+    'STE': 100.4
+    }
+mmRange = [60, 260]
 
 tab1, tab2, tab3, tab4 = st.tabs(['visual', 'numeric', 'interferences', 'recipe'])
 
@@ -45,17 +56,6 @@ with tab2:
     const_h = 6.62607004 * 10**(-34)
     const_c = 299792458
     const_eVtoJoule = 1.602176634 * 10**(-19)
-    #d-distance of the analystor-crystals in nm
-    st.session_state.crystalID = {
-    'TAP': 25.757,
-    'PET': 8.742,
-    'LIF': 4.0267,
-    'LDE1': 60,
-    'LDE2': 98,
-    'LDE4': 40,
-    'STE': 100.4
-    }
-    mmRange = [60, 260]
 
     col1, col2, col3 = st.columns([1,1,4])
     with col1:
@@ -90,7 +90,25 @@ with tab2:
     st.dataframe(st.session_state.df2.round(3))
 
 with tab3:
-    st.session_state.el_interference = st.selectbox('Element to check interferences', elements, index = 44)
+    col1, col2, col3, col4, col5 = st.columns(5)
+    with col1:
+        st.session_state.el_interference = st.selectbox('Element to check', elements, index = 44)
+    with col2:
+        st.session_state.el_interference_line = st.selectbox('Element line', st.session_state.df[st.session_state.df['El'] == st.session_state.el_interference]['Line'])
+    with col3:
+        st.session_state.interference_intervall = st.number_input('±interval', value = 100)
+    with col4:
+        st.session_state.interference_unit = st.selectbox('Unit', ['keV', 'mm'])
+    with col5:
+        st.session_state.interference_crystal = st.selectbox('analyser crystal', list(st.session_state.crystalID.keys()))
+    
+    fil_int_energy = (st.session_state.df['El'] == st.session_state.el_interference) & (st.session_state.df['Line'] == st.session_state.el_interference_line)
+    st.session_state.interference_energy = st.session_state.df[fil_int_energy]['Energy (keV)'].values[0]
+    
+    fil_int = (st.session_state.df['Energy (keV)'] < st.session_state.interference_energy + .001 * st.session_state.interference_intervall) & (st.session_state.df['Energy (keV)'] > st.session_state.interference_energy - .001 * st.session_state.interference_intervall)
+    st.write('Energy of '+st.session_state.el_interference+ st.session_state.el_interference_line + ': ' + str(st.session_state.interference_energy.round(3)) + ' ' + st.session_state.interference_unit)
+
+    st.write(st.session_state.df[fil_int])#[st.session_state.df[fil_int] == st.session_state.interference_crystal])
 
 with tab4:
     col1, col2, col3, col4, col5 = st.columns(5)
