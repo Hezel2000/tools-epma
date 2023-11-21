@@ -25,7 +25,7 @@ with tab1:
         st.dataframe(st.session_state.df)
     
 with tab2:
-    st.session_state.std_name = st.selectbox('Select Standard', ['Block 3', 'NBS Metals', 'Astimex', '3R', 'Current Standard Holder', 'Block 4', 'NIST NBS Glasses'], index=4
+    st.session_state.std_name = st.selectbox('Select Standard', ['Block 3', 'NBS Metals', 'Astimex', '3R', 'Current Standard Holder', 'Amphibole', 'Block 4', 'NIST NBS Glasses'], index=4
                                              )
     image = Image.open('data/std_images/' + st.session_state.std_name + '.png')
     st.image(image, caption=st.session_state.std_name)
