@@ -2,7 +2,8 @@ import streamlit as st
 import pandas as pd
 from PIL import Image
 
-st.sidebar.markdown(f'''<a href='http://geoplatform.de'><button style="background-color:LightBlue;">Back to DataPro</button></a>''',unsafe_allow_html=True)
+#st.sidebar.markdown(f'''<a href='http://geoplatform.de'><button style="background-color:LightBlue;">Back to DataPro</button></a>''',unsafe_allow_html=True)
+st.sidebar.st.link_button('test','http://geoplatform.de')
 
 st.session_state.df = pd.read_csv('data/epma_standards.csv')
 elements = st.session_state.df.columns[10:129].tolist()
