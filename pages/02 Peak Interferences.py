@@ -5,6 +5,8 @@ from bokeh.models import ColumnDataSource, Text
 
 st.header('Checking for Peak Interferences')
 
+st.sidebar.link_button('Epicenter','http://geoplatform.de')
+
 st.session_state.df = pd.read_csv('data/transition_energies.csv')
 elements = sorted(set(st.session_state.df['El'].values))
     #d-distance of the analystor-crystals in nm

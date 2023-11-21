@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
+st.sidebar.link_button('Epicenter','http://geoplatform.de')
+
 st.session_state.el = 'Fe'
 st.session_state.scale = 'linear'
 st.session_state.unit_mag = 'eV'
