@@ -9,7 +9,7 @@ elements = st.session_state.df.columns[10:129].tolist()
 unsorted_mineral_names = st.session_state.df['Mineral'].unique()
 mineral_names = pd.Series(unsorted_mineral_names).sort_values()
 
-tab1, tab2, tab3 = st.tabs(['Elements', 'Minerals', 'Images'])
+tab1, tab2, tab3, tab4 = st.tabs(['Elements', 'Minerals', 'Holder', 'The entire table'])
 
 with tab1:
     col1, col2, col3 = st.columns([1,1,3])
@@ -18,7 +18,7 @@ with tab1:
     with col2:
         built_in_only_el = st.checkbox('built in only', value = True, key = 'built_in_1')
     with col3:
-        st.session_state.el1_range = st.slider('sel', .0, 100.0, (0., 100.))
+        st.session_state.el1_range = st.slider('wt\%-range', .0, 100.0, (0., 100.))
     
     df1 = st.session_state.df
     df1.insert(2, st.session_state.el1+' ', st.session_state.df[st.session_state.el1])
@@ -28,9 +28,6 @@ with tab1:
     else:
         fil = (df1[st.session_state.el1] > st.session_state.el1_range[0]) & (df1[st.session_state.el1] < st.session_state.el1_range[1])
         st.dataframe(df1[fil].drop('ID',axis=1))
-
-    with st.expander('The entire standards table'):
-        st.dataframe(st.session_state.df)
 
 with tab2:
     col1, col2 = st.columns(2)
@@ -51,3 +48,6 @@ with tab3:
                                              )
     image = Image.open('data/std_images/' + st.session_state.std_name + '.png')
     st.image(image, caption=st.session_state.std_name)
+
+with tab4:
+    st.dataframe(st.session_state.df)
