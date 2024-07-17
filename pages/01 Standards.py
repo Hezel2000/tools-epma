@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 from PIL import Image
 
-st.sidebar.link_button('Epicenter','http://geoplatform.de')
+st.sidebar.link_button('mag4','https://mag4.org')
 
 st.session_state.df = pd.read_csv('data/epma_standards.csv')
 elements = st.session_state.df.columns[10:129].tolist()

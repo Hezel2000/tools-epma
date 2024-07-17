@@ -1,9 +1,8 @@
 import streamlit as st
 import pandas as pd
+# from io import StringIO
 
-import streamlit as st
-import pandas as pd
-from io import StringIO
+st.sidebar.link_button('mag4','https://mag4.org')
 
 uploaded_file = st.file_uploader("Upload an excel file with a 'targt' and a 'source' sheet in it")
 if uploaded_file is not None:

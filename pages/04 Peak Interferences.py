@@ -5,7 +5,7 @@ from bokeh.models import ColumnDataSource, Text
 
 st.header('Checking for Peak Interferences')
 
-st.sidebar.link_button('Epicenter','http://geoplatform.de')
+st.sidebar.link_button('mag4','https://mag4.org')
 
 st.session_state.df = pd.read_csv('data/transition_energies.csv')
 elements = sorted(set(st.session_state.df['El'].values))

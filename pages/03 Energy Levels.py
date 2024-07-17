@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-st.sidebar.link_button('Epicenter','http://geoplatform.de')
+st.sidebar.link_button('mag4','https://mag4.org')
 
 st.session_state.el = 'Fe'
 st.session_state.scale = 'linear'
