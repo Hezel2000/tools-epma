@@ -9,7 +9,7 @@ elements = st.session_state.df.columns[10:129].tolist()
 unsorted_mineral_names = st.session_state.df['Mineral'].unique()
 mineral_names = pd.Series(unsorted_mineral_names).sort_values()
 
-tab1, tab2, tab3, tab4 = st.tabs(['Elements', 'Minerals', 'Holder', 'The entire table'])
+tab1, tab2, tab3, tab4 = st.tabs(['Elements', 'Minerals', 'Holder', 'Entire table'])
 
 with tab1:
     col1, col2, col3 = st.columns([1,1,3])
